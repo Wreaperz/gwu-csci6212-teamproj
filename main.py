@@ -1,15 +1,19 @@
 from maze_builder import *
 from maze_to_graph import *
+import time
+import sys
 
+sys.setrecursionlimit(10000000) 
 # Generate a maze of X by X proportions
-maze = generate_maze(30)
+n = int(input("Enter the dimensions of the maze: "))
+maze = generate_maze(n)
 print_maze(maze)
 
 print("\n")
 
 # Convert the maze into a graph
-graph = maze_to_graph(maze)
-print(graph)
+# graph = maze_to_graph(maze)
+# print(graph)
 
 
 # Main function: Uses Depth-First search to find the appropriate path
@@ -63,7 +67,9 @@ def find_target(maze):
     return False
 
 # Print out whether or not a route was found
+start = time.time()
 print("Found Route:", find_target(maze))
-
+end = time.time() - start
+print("time taken: " + str(end) + " seconds")
 # Print the new maze (with lines pointing back from end to start)
 print_maze(maze)
