@@ -6,7 +6,7 @@ import time
 # Generate a maze of X by X proportions
 n = int(input("Enter the dimensions of the maze: "))
 maze = generate_maze(n)
-print_maze(maze)
+# print_maze(maze)
 
 print("\n")
 
@@ -63,16 +63,19 @@ def find_target(maze):
     if not start or not target:
         return False
 
+    start_time = time.time()
     path = dfs(maze, start, target)
+    end = time.time() - start_time
+    print("time taken: " + str(end) + " seconds")
+
     if path:
         mark_path(maze, path)
         return True
     return False
 
 # Print out whether or not a route was found
-start = time.time()
-print("Found Route:", find_target(maze))
-end = time.time() - start
-print("time taken: " + str(end) + " seconds")
+result = find_target(maze)
+
+# print("Found Route:", result)
 # Print the new maze (with lines pointing back from end to start)
-print_maze(maze)
+# print_maze(maze)
