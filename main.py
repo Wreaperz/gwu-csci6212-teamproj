@@ -1,9 +1,8 @@
 from maze_builder import *
 from maze_to_graph import *
 import time
-import sys
 
-sys.setrecursionlimit(10000000) 
+
 # Generate a maze of X by X proportions
 n = int(input("Enter the dimensions of the maze: "))
 maze = generate_maze(n)
@@ -17,25 +16,30 @@ print("\n")
 
 
 # Main function: Uses Depth-First search to find the appropriate path
-def dfs(maze, current, target, visited, path):
-    x, y = current
-    if current == target:
-        return True
+def dfs(maze, start, target):
+    stack = [(start, [])]
+    visited = set()
 
     # Define possible directions: up, down, left, right
     directions = [(-1, 0, '↓'), (1, 0, '↑'), (0, -1, '→'), (0, 1, '←')]
 
-    for dx, dy, symbol in directions:
-        nx, ny = x + dx, y + dy
+    while stack:
+        current, path = stack.pop()
+        x, y = current
 
-        if 0 <= nx < len(maze) and 0 <= ny < len(maze[0]) and \
-            maze[nx][ny] in ['.', 'E'] and (nx, ny) not in visited:
-            visited.add((nx, ny))
-            if dfs(maze, (nx, ny), target, visited, path):
-                path.append((nx, ny, symbol))
-                return True
+        if current == target:
+            return path
 
-    return False
+        visited.add(current)
+
+        for dx, dy, symbol in directions:
+            nx, ny = x + dx, y + dy
+
+            if 0 <= nx < len(maze) and 0 <= ny < len(maze[0]) and \
+                    maze[nx][ny] in ['.', 'E'] and (nx, ny) not in visited:
+                stack.append(((nx, ny), path + [(nx, ny, symbol)]))
+
+    return []
 
 # Function used to mark the correct path
 def mark_path(maze, path):
@@ -59,9 +63,8 @@ def find_target(maze):
     if not start or not target:
         return False
 
-    path = []
-    found = dfs(maze, start, target, set(), path)
-    if found:
+    path = dfs(maze, start, target)
+    if path:
         mark_path(maze, path)
         return True
     return False
