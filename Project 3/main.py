@@ -67,7 +67,7 @@ def find_target(maze):
 # print_maze(maze)
 
 # Generate a maze of X by X proportions
-n = 5
+n = 4
 maze = generate_maze(n)
 print_maze(maze)
 
@@ -89,4 +89,6 @@ print_maze(doubled_maze)
 # print(graph)
 
 # Print out whether or not a route was found
-# result = find_target(maze)
+print("\nPrinting result\n\n")
+result = find_target(doubled_maze)
+print_maze(doubled_maze)

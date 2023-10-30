@@ -1,7 +1,7 @@
 import random
 
 # Globals regarding maze building
-entrance = 'E'
+entrance = 'S'
 exit = 'E'
 
 def generate_maze(size):
@@ -252,24 +252,22 @@ def double_scale_maze(original_maze):
             y = 2 * j + 1
             # print(f"Cell value:  {cell_value}, Cell position: ({i}, {j}), Scaled position: ({x}, {y})")
 
-            # Check for special case entrance or exit: 
+            # Check for special case
+            # Entrance
+            if cell_value == 'S':
+                # Entrance case: Entrance will always have passage below: S -> [#S], [#.]
+                # print("ENTRANCE")
+                # Mark scaled position to be entrance
+                scaled_maze[x][y] = 'S'
+                # Mark below to be passage
+                scaled_maze[x+1][y] = '.'
             if cell_value == 'E':
-                # print("SPECIAL CASE")
-                # Entrance case: Entrance will always have passage below: E -> [#E], [#.]
-                if i == 0:
-                    # print("ENTRANCE")
-                    # Mark scaled position to be entrance
-                    scaled_maze[x][y] = 'E'
-                    # Mark below to be passage
-                    scaled_maze[x+1][y] = '.'
-        
                 # Exit case: Exit is always in bottom row and will have passage above. E -> [#.], [#E]
-                else:
-                    # print("EXIT")
-                    # Mark scaled position to be passage
-                    scaled_maze[x][y] = '.'
-                    # Mark bottom to be exit
-                    scaled_maze[x+1][y] = 'E'
+                # print("EXIT")
+                # Mark scaled position to be passage
+                scaled_maze[x][y] = '.'
+                # Mark bottom to be exit
+                scaled_maze[x+1][y] = 'E'
             
 
             # Check if cell is open passage
