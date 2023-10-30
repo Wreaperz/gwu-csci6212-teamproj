@@ -2,19 +2,6 @@ from maze_builder import *
 from maze_to_graph import *
 import time
 
-
-# Generate a maze of X by X proportions
-n = int(input("Enter the dimensions of the maze: "))
-maze = generate_maze(n)
-# print_maze(maze)
-
-print("\n")
-
-# Convert the maze into a graph
-# graph = maze_to_graph(maze)
-# print(graph)
-
-
 # Main function: Uses Depth-First search to find the appropriate path
 def dfs(maze, start, target):
     stack = [(start, [])]
@@ -69,13 +56,37 @@ def find_target(maze):
     print("time taken: " + str(end) + " seconds")
 
     if path:
+        print("There is a path")
         mark_path(maze, path)
         return True
+    print("There is no path")
     return False
-
-# Print out whether or not a route was found
-result = find_target(maze)
 
 # print("Found Route:", result)
 # Print the new maze (with lines pointing back from end to start)
 # print_maze(maze)
+
+# Generate a maze of X by X proportions
+n = 5
+maze = generate_maze(n)
+print_maze(maze)
+
+# For testing
+# maze = [
+#     ['#', 'E', '#', '#'],
+#     ['#', '.', '#', '#'],
+#     ['#', '.', '.', '#'],
+#     ['#', '#', 'E', '#']
+# ]
+# print_maze(maze)
+
+doubled_maze = double_scale_maze(maze)
+print("\nPrinting scaled maze\n")
+print_maze(doubled_maze)
+
+# Convert the maze into a graph
+# graph = maze_to_graph(maze)
+# print(graph)
+
+# Print out whether or not a route was found
+# result = find_target(maze)
