@@ -8,7 +8,7 @@ def dfs(maze, start, target):
     visited = set()
 
     # Define possible directions: up, down, left, right
-    directions = [(-1, 0, '↓'), (1, 0, '↑'), (0, -1, '→'), (0, 1, '←')]
+    directions = [(-1, 0, 'D'), (1, 0, 'U'), (0, -1, 'R'), (0, 1, 'L')]
 
     while stack:
         current, path = stack.pop()
