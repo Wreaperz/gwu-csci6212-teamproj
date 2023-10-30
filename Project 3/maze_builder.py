@@ -286,6 +286,28 @@ def double_scale_maze(original_maze):
 
     return scaled_maze
 
+# Function used to mark the correct path
+def mark_path(maze, path):
+    for x, y, symbol in path:
+        if maze[x][y] == '.':
+            maze[x][y] = symbol
+
+def singularize_maze(maze):
+    """
+    Takes a maze that has been traversed by dfs with path marked, then makes that the only path.
+    """
+    path_symbols = {'U', 'D', 'L', 'R'}
+    special_chars = {'S', 'E'}
+    for i in range(len(maze)):
+        for j in range(len(maze[0])):
+            if maze[i][j] in path_symbols:
+                maze[i][j] = '.'
+            elif maze[i][j] in special_chars:
+                continue
+            else:
+                maze[i][j] = '#'
+    return maze
+
 
 def print_maze(maze):
     for row in maze:

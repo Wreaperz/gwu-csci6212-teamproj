@@ -28,12 +28,6 @@ def dfs(maze, start, target):
 
     return []
 
-# Function used to mark the correct path
-def mark_path(maze, path):
-    for x, y, symbol in path:
-        if maze[x][y] == '.':
-            maze[x][y] = symbol
-
 # Function used to find whether or not a path out exists
 def find_target(maze):
     start = None
@@ -67,28 +61,25 @@ def find_target(maze):
 # print_maze(maze)
 
 # Generate a maze of X by X proportions
-n = 4
+n = 8
 maze = generate_maze(n)
 print_maze(maze)
 
-# For testing
-# maze = [
-#     ['#', 'E', '#', '#'],
-#     ['#', '.', '#', '#'],
-#     ['#', '.', '.', '#'],
-#     ['#', '#', 'E', '#']
-# ]
-# print_maze(maze)
+# doubled_maze = double_scale_maze(maze)
+# print("\nPrinting scaled maze\n")
+# print_maze(doubled_maze)
 
-doubled_maze = double_scale_maze(maze)
-print("\nPrinting scaled maze\n")
-print_maze(doubled_maze)
-
-# Convert the maze into a graph
-# graph = maze_to_graph(maze)
-# print(graph)
+# # Convert the maze into a graph
+# # graph = maze_to_graph(maze)
+# # print(graph)
 
 # Print out whether or not a route was found
 print("\nPrinting result\n\n")
-result = find_target(doubled_maze)
-print_maze(doubled_maze)
+result = find_target(maze)
+traversed_maze = maze
+print_maze(traversed_maze)
+
+# Singularize the path in the maze
+singularized_maze = singularize_maze(traversed_maze)
+print(f"\nPrinting maze with singular path")
+print_maze(singularized_maze)
