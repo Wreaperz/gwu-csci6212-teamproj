@@ -61,9 +61,9 @@ def find_target(maze):
 # print_maze(maze)
 
 # Generate a maze of X by X proportions
-n = 8
+n = 15
 maze = generate_maze(n)
-print_maze(maze)
+# print_maze(maze)
 
 # doubled_maze = double_scale_maze(maze)
 # print("\nPrinting scaled maze\n")
@@ -74,12 +74,17 @@ print_maze(maze)
 # # print(graph)
 
 # Print out whether or not a route was found
-print("\nPrinting result\n\n")
+# print("\nPrinting result\n\n")
 result = find_target(maze)
 traversed_maze = maze
-print_maze(traversed_maze)
+# print_maze(traversed_maze)
 
 # Singularize the path in the maze
 singularized_maze = singularize_maze(traversed_maze)
 print(f"\nPrinting maze with singular path")
+print_maze(singularized_maze)
+
+# Try the branching algorithm
+add_branches_to_maze(singularized_maze, 4)
+print(f"\nPrinting maze with branch")
 print_maze(singularized_maze)
