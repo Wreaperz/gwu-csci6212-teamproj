@@ -1,5 +1,4 @@
 import random
-from main import print_maze
 
 def define_adjacents(coordinate_x, coordinate_y):
     """
@@ -311,7 +310,6 @@ def pick_direction(maze, current_x, current_y, current_direction, previous_direc
 
     # Modify the previous direction
     return (current_direction, previous_direction)
-
 
 def add_branches_to_maze(maze, num_branches, min_branch_size, max_branch_size):
     """

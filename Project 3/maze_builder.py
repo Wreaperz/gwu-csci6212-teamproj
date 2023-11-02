@@ -1,4 +1,6 @@
 import random
+import time
+from add_branches import add_branches_to_maze
 
 # Globals regarding maze building
 entrance = 'S'
@@ -286,6 +288,62 @@ def double_scale_maze(original_maze):
 
     return scaled_maze
 
+def maze_dfs(maze, start, target):
+    """
+    DFS traversal from start to finish using maze in string format. NOT GRAPH.
+    """
+    stack = [(start, [])]
+    visited = set()
+
+    # Define possible directions: up, down, left, right
+    directions = [(-1, 0, 'D'), (1, 0, 'U'), (0, -1, 'R'), (0, 1, 'L')]
+
+    while stack:
+        current, path = stack.pop()
+        x, y = current
+
+        if current == target:
+            return path
+
+        visited.add(current)
+
+        for dx, dy, symbol in directions:
+            nx, ny = x + dx, y + dy
+
+            if 0 <= nx < len(maze) and 0 <= ny < len(maze[0]) and \
+                    maze[nx][ny] in ['.', 'E'] and (nx, ny) not in visited:
+                stack.append(((nx, ny), path + [(nx, ny, symbol)]))
+
+    return []
+
+# Function used to find whether or not a path out exists
+def find_target(maze):
+    start = None
+    target = None
+
+    # Find start and target positions
+    for i in range(len(maze)):
+        for j in range(len(maze[0])):
+            if maze[i][j] == 'S':
+                start = (i, j)
+            if maze[i][j] == 'E':
+                target = (i, j)
+
+    if not start or not target:
+        return False
+
+    start_time = time.time()
+    path = maze_dfs(maze, start, target)
+    end = time.time() - start_time
+    print("time taken: " + str(end) + " seconds")
+
+    if path:
+        print("There is a path")
+        mark_path(maze, path)
+        return True
+    print("There is no path")
+    return False
+
 # Function used to mark the correct path
 def mark_path(maze, path):
     for x, y, symbol in path:
@@ -308,7 +366,29 @@ def singularize_maze(maze):
                 maze[i][j] = '#'
     return maze
 
+def build_maze_with_branches(maze_size, num_branches, min_branch_length, max_branch_length):
+    """
+    Creates and returns a maze with defined number of branches between bounds of defined branch length.
+    """
+    # Generate random maze
+    maze = generate_maze(maze_size)
+    
+    # Mark the maze traversal
+    result = find_target(maze)
+    traversed_maze = maze
 
+    # Singularize the path in the maze
+    singularized_maze = singularize_maze(maze)
+    print(f"\nPrinting maze with singular path")
+    print_maze(singularized_maze)
+
+    # Try the branching algorithm
+    add_branches_to_maze(singularized_maze, num_branches, min_branch_length, max_branch_length)
+    maze_with_branches = singularized_maze
+    print(f"\nPrinting maze with branch")
+    print_maze(maze_with_branches)
+
+    return maze_with_branches
 
 
 
