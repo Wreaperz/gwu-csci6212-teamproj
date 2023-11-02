@@ -1,5 +1,6 @@
 from maze_builder import *
 from maze_to_graph import *
+from add_branches import *
 import time
 
 # Main function: Uses Depth-First search to find the appropriate path
@@ -85,6 +86,6 @@ print(f"\nPrinting maze with singular path")
 print_maze(singularized_maze)
 
 # Try the branching algorithm
-add_branches_to_maze(singularized_maze, 4)
+add_branches_to_maze(singularized_maze, 1, len(maze), len(maze))
 print(f"\nPrinting maze with branch")
 print_maze(singularized_maze)
