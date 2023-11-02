@@ -379,14 +379,14 @@ def build_maze_with_branches(maze_size, num_branches, min_branch_length, max_bra
 
     # Singularize the path in the maze
     singularized_maze = singularize_maze(maze)
-    print(f"\nPrinting maze with singular path")
-    print_maze(singularized_maze)
+    # print(f"\nPrinting maze with singular path")
+    # print_maze(singularized_maze)
 
     # Try the branching algorithm
     add_branches_to_maze(singularized_maze, num_branches, min_branch_length, max_branch_length)
     maze_with_branches = singularized_maze
-    print(f"\nPrinting maze with branch")
-    print_maze(maze_with_branches)
+    # print(f"\nPrinting maze with branch")
+    # print_maze(maze_with_branches)
 
     return maze_with_branches
 
