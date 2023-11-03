@@ -1,4 +1,5 @@
 import random
+import copy
 
 def define_adjacents(coordinate_x, coordinate_y):
     """
@@ -313,13 +314,15 @@ def pick_direction(maze, current_x, current_y, current_direction, previous_direc
 
 def add_branches_to_maze(maze, num_branches, min_branch_size, max_branch_size):
     """
-    Adds a specified number of branches with randomly generated lengths between defined bounds. Modifies the maze in place.
+    Adds a specified number of branches with randomly generated lengths between defined bounds. Returns a maze with branches at the end.
     """
+    maze_with_branches = copy.deepcopy(maze)
+
     # Store all paths into a set 
     path_locations = [] # Stores coordinates of locations in the maze where there is a path
-    for i in range(len(maze)):
-        for j in range(len(maze[0])):
-            if maze[i][j] == '.':
+    for i in range(len(maze_with_branches)):
+        for j in range(len(maze_with_branches[0])):
+            if maze_with_branches[i][j] == '.':
                 path_locations.append((i, j))
     path_locations = set(path_locations)
 
@@ -365,7 +368,7 @@ def add_branches_to_maze(maze, num_branches, min_branch_size, max_branch_size):
             corners = define_corners(current_x, current_y)
 
             # Pick direction
-            current_direction, previous_direction = pick_direction(maze, current_x, current_y, current_direction, previous_direction, adjacents, corners)
+            current_direction, previous_direction = pick_direction(maze_with_branches, current_x, current_y, current_direction, previous_direction, adjacents, corners)
 
             # Exit path early if no where to go
             if current_direction is None:
@@ -376,7 +379,9 @@ def add_branches_to_maze(maze, num_branches, min_branch_size, max_branch_size):
             dx, dy = directions[current_direction]
             current_x += dx
             current_y += dy
-            maze[current_y][current_x] = '.'
+            maze_with_branches[current_y][current_x] = '.'
 
             # Increment path length
             current_length += 1
+    
+    return maze_with_branches

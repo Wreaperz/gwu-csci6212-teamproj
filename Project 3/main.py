@@ -1,6 +1,5 @@
-from maze_builder import *
-from maze_to_graph import maze_to_graph, node_to_idx, graph_path_to_maze_coordinates
-from maze_builder import build_maze_with_branches
+from maze_to_graph import maze_to_graph, graph_path_to_maze_coordinates
+from maze_builder import build_maze_with_branches, print_maze
 import time
 
 # Main function: Uses Depth-First search to find the appropriate path

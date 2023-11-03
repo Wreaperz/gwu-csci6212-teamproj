@@ -332,10 +332,7 @@ def find_target(maze):
     if not start or not target:
         return False
 
-    start_time = time.time()
     path = maze_dfs(maze, start, target)
-    end = time.time() - start_time
-    print("time taken: " + str(end) + " seconds")
 
     if path:
         print("There is a path")
@@ -366,6 +363,18 @@ def singularize_maze(maze):
                 maze[i][j] = '#'
     return maze
 
+def build_singular_maze(maze_size):
+    # Generate random maze
+    maze = generate_maze(maze_size)
+    
+    # Mark the maze traversal
+    result = find_target(maze)
+    traversed_maze = maze
+
+    # Singularize the path in the maze
+    singularized_maze = singularize_maze(traversed_maze)
+    return singularized_maze
+
 def build_maze_with_branches(maze_size, num_branches, min_branch_length, max_branch_length):
     """
     Creates and returns a maze with defined number of branches between bounds of defined branch length.
@@ -378,13 +387,13 @@ def build_maze_with_branches(maze_size, num_branches, min_branch_length, max_bra
     traversed_maze = maze
 
     # Singularize the path in the maze
-    singularized_maze = singularize_maze(maze)
+    singularized_maze = singularize_maze(traversed_maze)
     # print(f"\nPrinting maze with singular path")
     # print_maze(singularized_maze)
 
     # Try the branching algorithm
-    add_branches_to_maze(singularized_maze, num_branches, min_branch_length, max_branch_length)
-    maze_with_branches = singularized_maze
+    maze_with_branches = add_branches_to_maze(singularized_maze, num_branches, min_branch_length, max_branch_length)
+    
     # print(f"\nPrinting maze with branch")
     # print_maze(maze_with_branches)
 
