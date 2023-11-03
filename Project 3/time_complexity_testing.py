@@ -72,7 +72,19 @@ def create_graph_data(singularized_maze, branch_num_list, min_branch_size, max_b
 
 def plot_graph_size_vs_time(sizes, times):
     plt.figure(figsize=(10, 6))  # Set the figure size as desired
-    plt.plot(sizes, times, marker='o', label='Experimental Times')  # Plot measured times
+
+    # Calculate linear regression coefficients manually
+    n = len(sizes)
+    sum_sizes = sum(sizes)
+    sum_times = sum(times)
+    sum_sizes_squared = sum(s * s for s in sizes)
+    sum_sizes_times = sum(s * t for s, t in zip(sizes, times))
+
+    a = (n * sum_sizes_times - sum_sizes * sum_times) / (n * sum_sizes_squared - sum_sizes * sum_sizes)
+    b = (sum_times - a * sum_sizes) / n
+
+    # Calculate the regression line
+    regression_line = [a * size + b for size in sizes]
 
     # Calculate theoretical times assuming linear time complexity
     min_size = min(sizes)
@@ -80,12 +92,14 @@ def plot_graph_size_vs_time(sizes, times):
     min_time = min(times)
     max_time = max(times)
 
-    a = (max_time - min_time) / (max_size - min_size)
-    b = min_time - a * min_size
+    a_theoretical = (max_time - min_time) / (max_size - min_size)
+    b_theoretical = min_time - a_theoretical * min_size
 
-    theoretical_times = [a * size + b for size in sizes]
+    theoretical_times = [a_theoretical * size + b_theoretical for size in sizes]
 
+    plt.plot(sizes, times, marker='o', label='Experimental Times')  # Plot measured times
     plt.plot(sizes, theoretical_times, label='Theoretical Times')  # Plot theoretical times
+    plt.plot(sizes, regression_line, label='Experimental Regression Line')  # Plot regression line
     plt.title('Graph Size vs Time Taken for DFS')  # Title of the plot
     plt.xlabel('Graph Size')  # Label for the x-axis
     plt.ylabel('Time Taken (nanoseconds)')  # Label for the y-axis
