@@ -69,15 +69,29 @@ def create_graph_data(singularized_maze, branch_num_list, min_branch_size, max_b
 
     return graphs
 
+
 def plot_graph_size_vs_time(sizes, times):
     plt.figure(figsize=(10, 6))  # Set the figure size as desired
-    plt.plot(sizes, times, marker='o')  # Plot sizes vs times with circle markers
+    plt.plot(sizes, times, marker='o', label='Experimental Times')  # Plot measured times
+
+    # Calculate theoretical times assuming linear time complexity
+    min_size = min(sizes)
+    max_size = max(sizes)
+    min_time = min(times)
+    max_time = max(times)
+
+    a = (max_time - min_time) / (max_size - min_size)
+    b = min_time - a * min_size
+
+    theoretical_times = [a * size + b for size in sizes]
+
+    plt.plot(sizes, theoretical_times, label='Theoretical Times')  # Plot theoretical times
     plt.title('Graph Size vs Time Taken for DFS')  # Title of the plot
     plt.xlabel('Graph Size')  # Label for the x-axis
     plt.ylabel('Time Taken (nanoseconds)')  # Label for the y-axis
     plt.grid(True)  # Add grid for better readability
+    plt.legend()  # Add a legend
     plt.show()  # Display the plot
-
 
 maze_size = 200
 num_data_points = 100
